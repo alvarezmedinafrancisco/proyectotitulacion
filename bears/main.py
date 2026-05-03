@@ -1,36 +1,53 @@
 import flet as ft
+from .controllers.auth_controller import AuthController
+from .controllers.examen_controller import ExamenController
+from .views.login_view import LoginView
+from .views.register_view import RegisterView
+from .views.menu_view import MenuView
+from .views.examen_view import ExamenView
 
 def main(page: ft.Page):
-    page.title = "Bears Project - Titulación"
-    page.theme_mode = ft.ThemeMode.DARK # O Dark, tú eliges
+    page.title = "Sistema de Guías - CETIS 61"
+    page.window_width = 450
+    page.window_height = 800
+    page.theme_mode = ft.ThemeMode.LIGHT
     
-    # Aquí es donde definiremos los cambios de pantalla
-    def route_change(route):
+    try:
+        auth_ctrl = AuthController()
+        exam_ctrl = ExamenController()
+        print("Controladores listos.")
+    except Exception as e:
+        print(f"Error en BD: {e}")
+
+    def route_change(e):
         page.views.clear()
-        page.views.append(
-            ft.View(
-                "/",
-                [
-                    ft.AppBar(title=ft.Text("Inicio"), bgcolor=ft.Colors.ON_SURFACE_VARIANT),
-                    ft.Text("Bienvenido a Bears", size=30),
-                    ft.ElevatedButton("Ir a Configuración", on_click=lambda _: page.go("/settings")),
-                ],
-            )
-        )
-        if page.route == "/settings":
-            page.views.append(
-                ft.View(
-                    "/settings",
-                    [
-                        ft.AppBar(title=ft.Text("Configuración"), bgcolor=ft.Colors.ON_SURFACE_VARIANT),
-                        ft.Text("Aquí puedes ajustar todo"),
-                        ft.ElevatedButton("Volver", on_click=lambda _: page.go("/")),
-                    ],
-                )
-            )
+        
+        if page.route == "/" or page.route == "/login" or page.route == "":
+            page.views.append(LoginView(page, auth_ctrl))
+        elif page.route == "/register":
+            page.views.append(RegisterView(page, auth_ctrl))
+        elif page.route == "/menu":
+            if not getattr(page, "current_user", None):
+                page.route = "/login"
+                page.update()
+                return
+            page.views.append(MenuView(page, exam_ctrl))
+        elif page.route.startswith("/examen/"):
+            try:
+                id_unidad = int(page.route.split("/")[-1])
+                page.views.append(ExamenView(page, exam_ctrl, id_unidad))
+            except:
+                page.route = "/menu"
+                page.update()
+        
         page.update()
 
     page.on_route_change = route_change
-    page.go(page.route)
+    # Forzamos el primer renderizado de forma segura
+    route_change(None)
 
-ft.app(target=main)
+def run():
+    ft.run(main)
+
+if __name__ == "__main__":
+    run()

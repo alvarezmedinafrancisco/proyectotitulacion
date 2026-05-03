@@ -1,0 +1,5 @@
+flet>=0.84.0
+bcrypt
+mysql-connector-python
+python-dotenv
+pydantic[email]

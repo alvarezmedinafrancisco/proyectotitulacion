@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bears"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flet>=0.84.0",
+    "bcrypt",
+    "mysql-connector-python",
+    "python-dotenv",
+    "pydantic[email]",
+]
+
+[project.scripts]
+app = "bears.main:run"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bears*"]
