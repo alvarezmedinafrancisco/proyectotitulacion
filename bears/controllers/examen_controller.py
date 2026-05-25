@@ -15,3 +15,15 @@ class ExamenController:
 
     def obtener_examen(self, id_unidad):
         return self.model.obtener_preguntas_unidad(id_unidad)
+
+    def obtener_resultados_usuario(self, id_usuario):
+        return self.model.obtener_resultados_por_usuario(id_usuario)
+
+    def obtener_resultados_por_materia(self, id_usuario):
+        return self.model.obtener_resultados_por_usuario_por_materia(id_usuario)
+
+    def obtener_unidad_y_materia(self, id_unidad):
+        return self.model.obtener_unidad_y_materia(id_unidad)
+
+    def guardar_resultado(self, id_usuario, id_unidad, calificacion):
+        return self.model.guardar_resultado(id_usuario, id_unidad, calificacion)

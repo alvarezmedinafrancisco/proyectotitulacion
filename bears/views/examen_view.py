@@ -1,8 +1,9 @@
 import flet as ft
 
 def ExamenView(page, exam_ctrl, id_unidad):
-    #cargamos las preguntas de la unidad seleccionada
+    # cargamos las preguntas de la unidad seleccionada
     preguntas = exam_ctrl.obtener_examen(id_unidad)
+    datos_unidad = exam_ctrl.obtener_unidad_y_materia(id_unidad) or {"unidad": "Desconocida", "materia": "Desconocida"}
     estado = {"indice": 0, "puntos": 0}
 
     txt_pregunta = ft.Text(size=22, weight="bold", text_align=ft.TextAlign.CENTER)
@@ -24,16 +25,41 @@ def ExamenView(page, exam_ctrl, id_unidad):
             finalizar_examen()
 
     def finalizar_examen():
+        if getattr(page, "current_user", None):
+            porcentaje = round((estado['puntos'] / len(preguntas)) * 100, 2) if preguntas else 0
+            exam_ctrl.guardar_resultado(page.current_user['id_usuario'], id_unidad, porcentaje)
+
+        resultado_usuario = page.current_user if getattr(page, "current_user", None) else {}
         page.views.append(ft.View(
             route="/resultado",
             controls=[
                 ft.Text("Resultado Final", size=40, weight="bold"),
+                ft.Text(f"Alumno: {resultado_usuario.get('nombre', 'Invitado')}", size=18),
+                ft.Text(f"Correo: {resultado_usuario.get('email', 'No disponible')}", size=14, color=ft.Colors.BLACK54),
+                ft.Divider(),
+                ft.Text(f"Materia: {datos_unidad.get('materia', 'Desconocida')}", size=16),
+                ft.Text(f"Unidad: {datos_unidad.get('unidad', 'Desconocida')}", size=16),
+                ft.Divider(),
                 ft.Text(f"Aciertos: {estado['puntos']} de {len(preguntas)}", size=25),
-                ft.ElevatedButton("Regresar al Menú", on_click=lambda _: page.go("/menu"))
+                ft.Text(f"Puntaje: {round((estado['puntos'] / len(preguntas)) * 100, 2) if preguntas else 0}%", size=18),
+                ft.ElevatedButton("Regresar al Menú", on_click=lambda _: page.go("/menu"), width=200)
             ],
             vertical_alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER
         ))
+        page.update()
+
+    def logout(e):
+        page.current_user = None
+        page.dialog.open = False
+        page.go("/login")
+
+    def close_profile(e):
+        page.dialog.open = False
+        page.update()
+
+    def open_profile(e):
+        perfil_dialog.open = True
         page.update()
 
     def siguiente_pregunta(e):
@@ -52,18 +78,63 @@ def ExamenView(page, exam_ctrl, id_unidad):
         txt_pregunta.value = "No se encontraron preguntas para esta unidad."
         opciones.content.controls = []
 
+    resultados_por_materia = []
+    if getattr(page, "current_user", None):
+        resultados_por_materia = exam_ctrl.obtener_resultados_por_materia(page.current_user['id_usuario'])
+
+    perfil_dialog = ft.AlertDialog(
+        title=ft.Text("Perfil de usuario", weight="bold"),
+        content=ft.Container(
+            content=ft.Column([
+                ft.Text(f"Correo: {page.current_user['email']}" if getattr(page, "current_user", None) else "Correo: Desconocido"),
+                ft.Text(f"Nombre: {page.current_user.get('nombre', '')}" if getattr(page, "current_user", None) else "Nombre: Desconocido"),
+                ft.Divider(thickness=1, color=ft.Colors.BLUE_200),
+                ft.Text("Progreso por materia:", weight="bold"),
+                ft.Column([
+                    ft.Row([
+                        ft.Text(r['materia'], expand=True),
+                        ft.Text(f"Promedio: {r['promedio']}%", width=140, text_align=ft.TextAlign.RIGHT)
+                    ])
+                    for r in resultados_por_materia
+                ] or [ft.Text("Aún no tienes calificaciones registradas.")]),
+                ft.Divider(thickness=1, color=ft.Colors.BLUE_200),
+                ft.ElevatedButton("Cerrar sesión", on_click=logout, width=200, bgcolor=ft.Colors.RED, color="white")
+            ], spacing=10),
+            padding=20,
+            bgcolor=ft.Colors.BLUE_50,
+            border_radius=20
+        ),
+        actions=[
+            ft.TextButton("Cerrar", on_click=close_profile)
+        ],
+        shape=ft.RoundedRectangleBorder(radius=20)
+    )
+
+    page.dialog = perfil_dialog
+
     return ft.View(
         route="/examen",
         controls=[
-            ft.AppBar(title=ft.Text("Examen en curso"), bgcolor="orange"),
+            ft.AppBar(
+                title=ft.Text("Examen en curso"),
+                bgcolor="orange",
+                actions=[
+                    ft.IconButton(icon=ft.Icons.PERSON, tooltip="Perfil", on_click=open_profile)
+                ]
+            ),
             ft.Container(
                 content=ft.Column([
-                    ft.ProgressBar(value=0, width=400, color="blue"), 
+                    ft.Row([
+                        ft.Text(f"{datos_unidad['materia']} - {datos_unidad['unidad']}", size=16, weight="bold"),
+                        ft.ElevatedButton("Ver perfil", on_click=open_profile, bgcolor=ft.Colors.BLUE_700, color="white", width=120)
+                    ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+                    ft.Divider(),
+                    ft.ProgressBar(value=0, width=400, color="blue"),
                     txt_pregunta,
                     ft.Divider(),
                     opciones,
-                    ft.ElevatedButton("Siguiente Pregunta", on_click=siguiente_pregunta, width=200)
-                ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                    ft.ElevatedButton("Siguiente Pregunta", on_click=siguiente_pregunta, width=200, bgcolor=ft.Colors.GREEN, color="white")
+                ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=12),
                 padding=30
             )
         ]
