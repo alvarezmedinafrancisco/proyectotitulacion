@@ -77,29 +77,30 @@ def MenuView(page, examen_controller):
 
     return ft.View(
         route="/menu",
+        bgcolor=ft.Colors.BLUE_GREY_900,
         controls=[
             ft.AppBar(
-                title=ft.Text("Guías CETIS 61"),
-                bgcolor=ft.Colors.BLUE_800,
-                color="white",
+                title=ft.Text("Guías CETIS 61", color=ft.Colors.WHITE),
+                bgcolor=ft.Colors.BLUE_GREY_800,
+                color=ft.Colors.WHITE,
                 leading=ft.IconButton(icon=ft.Icons.ARROW_BACK, tooltip="Volver al login", on_click=volver_login)
             ),
-            ft.Text(f"Usuario: {user_email}", size=14),
-            ft.Text(f"Nombre: {user_name}", size=14),
-            ft.Divider(),
-            ft.Text("Selecciona tu semestre:", size=20, weight="bold"),
+            ft.Text(f"Usuario: {user_email}", size=14, color=ft.Colors.GREY_200),
+            ft.Text(f"Nombre: {user_name}", size=14, color=ft.Colors.GREY_200),
+            ft.Divider(color=ft.Colors.BLUE_GREY_700),
+            ft.Text("Selecciona tu semestre:", size=20, weight="bold", color=ft.Colors.WHITE),
             ft.Row(botones_semestres, scroll=ft.ScrollMode.ALWAYS),
             ft.Divider(),
-            ft.Text("Materias disponibles:", size=18),
+            ft.Text("Materias disponibles:", size=18, color=ft.Colors.WHITE),
             container_materias,
-            ft.Divider(),
-            ft.Text("Resultados recientes:", size=18, weight="bold"),
+            ft.Divider(color=ft.Colors.BLUE_GREY_700),
+            ft.Text("Resultados recientes:", size=18, weight="bold", color=ft.Colors.WHITE),
             resultados_column,
             ft.Divider(),
             ft.Text(
-                "Para agregar más exámenes y temas, añade nuevas filas en las tablas: semestres, materias, unidades y preguntas.",
+                "Si no aparecen preguntas, revisa la tabla preguntas de la base de datos y agrega filas con id_unidad, pregunta_texto, opciones y respuesta_correcta.",
                 size=14,
-                color=ft.Colors.BLACK54
+                color=ft.Colors.GREY_300
             )
         ],
         padding=20

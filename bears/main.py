@@ -5,12 +5,15 @@ from .views.login_view import LoginView
 from .views.register_view import RegisterView
 from .views.menu_view import MenuView
 from .views.examen_view import ExamenView
+from .views.perfil_view import PerfilView
 
 def main(page: ft.Page):
     page.title = "Sistema de Guías - CETIS 61"
     page.window_width = 450
     page.window_height = 800
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.theme_mode = ft.ThemeMode.DARK
+    page.bgcolor = ft.Colors.BLUE_GREY_900
+    page.padding = 0
     
     try:
         auth_ctrl = AuthController()
@@ -32,6 +35,12 @@ def main(page: ft.Page):
                 page.update()
                 return
             page.views.append(MenuView(page, exam_ctrl))
+        elif page.route == "/perfil":
+            if not getattr(page, "current_user", None):
+                page.route = "/login"
+                page.update()
+                return
+            page.views.append(PerfilView(page, exam_ctrl))
         elif page.route.startswith("/examen/"):
             try:
                 id_unidad = int(page.route.split("/")[-1])

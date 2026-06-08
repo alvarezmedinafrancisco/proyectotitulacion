@@ -1,8 +1,24 @@
 import flet as ft
 
 def LoginView(page, auth_controller):
-    email_input = ft.TextField(label="Correo Institucional", width=300)
-    pass_input = ft.TextField(label="Contraseña", password=True, can_reveal_password=True, width=300)
+    email_input = ft.TextField(
+        label="Correo Institucional",
+        width=300,
+        bgcolor=ft.Colors.BLUE_GREY_800,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.GREY_300),
+        cursor_color=ft.Colors.WHITE,
+    )
+    pass_input = ft.TextField(
+        label="Contraseña",
+        password=True,
+        can_reveal_password=True,
+        width=300,
+        bgcolor=ft.Colors.BLUE_GREY_800,
+        color=ft.Colors.WHITE,
+        label_style=ft.TextStyle(color=ft.Colors.GREY_300),
+        cursor_color=ft.Colors.WHITE,
+    )
 
     def login_click(e):
         if not email_input.value or not pass_input.value:

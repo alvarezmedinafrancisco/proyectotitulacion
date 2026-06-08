@@ -2,10 +2,10 @@ import flet as ft
 
 
 def RegisterView(page, auth_controller):
-    name_input = ft.TextField(label="Nombre completo", width=300)
-    email_input = ft.TextField(label="Correo Institucional", width=300)
-    pass_input = ft.TextField(label="Contraseña", password=True, can_reveal_password=True, width=300)
-    confirm_input = ft.TextField(label="Confirmar contraseña", password=True, can_reveal_password=True, width=300)
+    name_input = ft.TextField(label="Nombre completo", width=300, bgcolor=ft.Colors.BLUE_GREY_800, color=ft.Colors.WHITE, label_style=ft.TextStyle(color=ft.Colors.GREY_300), cursor_color=ft.Colors.WHITE)
+    email_input = ft.TextField(label="Correo Institucional", width=300, bgcolor=ft.Colors.BLUE_GREY_800, color=ft.Colors.WHITE, label_style=ft.TextStyle(color=ft.Colors.GREY_300), cursor_color=ft.Colors.WHITE)
+    pass_input = ft.TextField(label="Contraseña", password=True, can_reveal_password=True, width=300, bgcolor=ft.Colors.BLUE_GREY_800, color=ft.Colors.WHITE, label_style=ft.TextStyle(color=ft.Colors.GREY_300), cursor_color=ft.Colors.WHITE)
+    confirm_input = ft.TextField(label="Confirmar contraseña", password=True, can_reveal_password=True, width=300, bgcolor=ft.Colors.BLUE_GREY_800, color=ft.Colors.WHITE, label_style=ft.TextStyle(color=ft.Colors.GREY_300), cursor_color=ft.Colors.WHITE)
 
     def register_click(e):
         if not name_input.value or not email_input.value or not pass_input.value or not confirm_input.value:
@@ -33,17 +33,25 @@ def RegisterView(page, auth_controller):
 
     return ft.View(
         route="/register",
+        bgcolor=ft.Colors.BLUE_GREY_900,
         vertical_alignment=ft.MainAxisAlignment.CENTER,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         controls=[
-            ft.Icon(ft.Icons.PERSON_ADD, size=100, color="green"),
-            ft.Text("Registro de usuario", size=28, weight="bold"),
-            ft.Text("Crea una cuenta para iniciar sesión después", size=14),
-            name_input,
-            email_input,
-            pass_input,
-            confirm_input,
-            ft.ElevatedButton("Registrarme", on_click=register_click, width=300, bgcolor="green", color="white"),
-            ft.TextButton("Volver al login", on_click=back_to_login, width=300)
+            ft.Container(
+                content=ft.Column([
+                    ft.Icon(ft.Icons.PERSON_ADD, size=100, color=ft.Colors.GREEN_300),
+                    ft.Text("Registro de usuario", size=28, weight="bold", color=ft.Colors.WHITE),
+                    ft.Text("Crea una cuenta para iniciar sesión después", size=14, color=ft.Colors.GREY_300),
+                    name_input,
+                    email_input,
+                    pass_input,
+                    confirm_input,
+                    ft.ElevatedButton("Registrarme", on_click=register_click, width=300, bgcolor=ft.Colors.GREEN_700, color=ft.Colors.WHITE),
+                    ft.TextButton("Volver al login", on_click=back_to_login, width=300, style=ft.ButtonStyle(color=ft.Colors.BLUE_100))
+                ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=8),
+                bgcolor=ft.Colors.BLUE_GREY_900,
+                padding=20,
+                border_radius=18,
+            )
         ]
     )
