@@ -12,31 +12,14 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `cetis_examenes`
---
 CREATE DATABASE IF NOT EXISTS `cetis_examenes` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `cetis_examenes`;
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `materias`
---
-
 CREATE TABLE `materias` (
   `id_materia` int(11) NOT NULL,
   `id_semestre` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `materias`
---
 
 INSERT INTO `materias` (`id_materia`, `id_semestre`, `nombre`) VALUES
 (1, 1, 'Pensamiento Matemático I'),
@@ -58,16 +41,30 @@ INSERT INTO `materias` (`id_materia`, `id_semestre`, `nombre`) VALUES
 (17, 6, 'Temas de Filosofía'),
 (18, 6, 'Ecología y Medio Ambiente'),
 (19, 1, 'Química Básica I'),
-(20, 1, 'Física Básica I'),
 (21, 1, 'Inglés I'),
 (22, 1, 'Socioemocional I'),
-(23, 1, 'Humanidades I');
+(23, 1, 'Humanidades I'),
+(24, 2, 'Comunicación Escrita II'),
+(25, 2, 'Competencias Digitales II'),
+(26, 2, 'Química Aplicada'),
+(27, 2, 'Desarrollo Socioemocional II'),
+(28, 3, 'Comunicación Académica III'),
+(29, 3, 'Tecnologías Digitales III'),
+(30, 3, 'Química Experimental'),
+(31, 3, 'Desarrollo Humano III'),
+(32, 4, 'Redacción Técnica IV'),
+(33, 4, 'Herramientas Informáticas IV'),
+(34, 4, 'Análisis Químico IV'),
+(35, 4, 'Habilidades Socioemocionales IV'),
+(36, 5, 'Comunicación Profesional V'),
+(37, 5, 'Innovación Digital V'),
+(38, 5, 'Procesos Químicos V'),
+(39, 5, 'Proyecto de Vida V'),
+(40, 6, 'Comunicación Integral VI'),
+(41, 6, 'Transformación Digital VI'),
+(42, 6, 'Química y Sociedad VI'),
+(43, 6, 'Liderazgo Socioemocional VI');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `preguntas`
---
 
 CREATE TABLE `preguntas` (
   `id_pregunta` int(11) NOT NULL,
@@ -908,7 +905,67 @@ INSERT INTO `unidades` (`id_unidad`, `id_materia`, `nombre`) VALUES
 (291, 22, 'Unidad 3 - Nivel 3'),
 (292, 23, 'Unidad 1 - Nivel 1'),
 (293, 23, 'Unidad 2 - Nivel 2'),
-(294, 23, 'Unidad 3 - Nivel 3');
+(294, 23, 'Unidad 3 - Nivel 3'),
+(295, 24, 'Unidad 1 - Nivel 1'),
+(296, 24, 'Unidad 2 - Nivel 2'),
+(297, 24, 'Unidad 3 - Nivel 3'),
+(298, 25, 'Unidad 1 - Nivel 1'),
+(299, 25, 'Unidad 2 - Nivel 2'),
+(300, 25, 'Unidad 3 - Nivel 3'),
+(301, 26, 'Unidad 1 - Nivel 1'),
+(302, 26, 'Unidad 2 - Nivel 2'),
+(303, 26, 'Unidad 3 - Nivel 3'),
+(304, 27, 'Unidad 1 - Nivel 1'),
+(305, 27, 'Unidad 2 - Nivel 2'),
+(306, 27, 'Unidad 3 - Nivel 3'),
+(307, 28, 'Unidad 1 - Nivel 1'),
+(308, 28, 'Unidad 2 - Nivel 2'),
+(309, 28, 'Unidad 3 - Nivel 3'),
+(310, 29, 'Unidad 1 - Nivel 1'),
+(311, 29, 'Unidad 2 - Nivel 2'),
+(312, 29, 'Unidad 3 - Nivel 3'),
+(313, 30, 'Unidad 1 - Nivel 1'),
+(314, 30, 'Unidad 2 - Nivel 2'),
+(315, 30, 'Unidad 3 - Nivel 3'),
+(316, 31, 'Unidad 1 - Nivel 1'),
+(317, 31, 'Unidad 2 - Nivel 2'),
+(318, 31, 'Unidad 3 - Nivel 3'),
+(319, 32, 'Unidad 1 - Nivel 1'),
+(320, 32, 'Unidad 2 - Nivel 2'),
+(321, 32, 'Unidad 3 - Nivel 3'),
+(322, 33, 'Unidad 1 - Nivel 1'),
+(323, 33, 'Unidad 2 - Nivel 2'),
+(324, 33, 'Unidad 3 - Nivel 3'),
+(325, 34, 'Unidad 1 - Nivel 1'),
+(326, 34, 'Unidad 2 - Nivel 2'),
+(327, 34, 'Unidad 3 - Nivel 3'),
+(328, 35, 'Unidad 1 - Nivel 1'),
+(329, 35, 'Unidad 2 - Nivel 2'),
+(330, 35, 'Unidad 3 - Nivel 3'),
+(331, 36, 'Unidad 1 - Nivel 1'),
+(332, 36, 'Unidad 2 - Nivel 2'),
+(333, 36, 'Unidad 3 - Nivel 3'),
+(334, 37, 'Unidad 1 - Nivel 1'),
+(335, 37, 'Unidad 2 - Nivel 2'),
+(336, 37, 'Unidad 3 - Nivel 3'),
+(337, 38, 'Unidad 1 - Nivel 1'),
+(338, 38, 'Unidad 2 - Nivel 2'),
+(339, 38, 'Unidad 3 - Nivel 3'),
+(340, 39, 'Unidad 1 - Nivel 1'),
+(341, 39, 'Unidad 2 - Nivel 2'),
+(342, 39, 'Unidad 3 - Nivel 3'),
+(343, 40, 'Unidad 1 - Nivel 1'),
+(344, 40, 'Unidad 2 - Nivel 2'),
+(345, 40, 'Unidad 3 - Nivel 3'),
+(346, 41, 'Unidad 1 - Nivel 1'),
+(347, 41, 'Unidad 2 - Nivel 2'),
+(348, 41, 'Unidad 3 - Nivel 3'),
+(349, 42, 'Unidad 1 - Nivel 1'),
+(350, 42, 'Unidad 2 - Nivel 2'),
+(351, 42, 'Unidad 3 - Nivel 3'),
+(352, 43, 'Unidad 1 - Nivel 1'),
+(353, 43, 'Unidad 2 - Nivel 2'),
+(354, 43, 'Unidad 3 - Nivel 3');
 
 -- --------------------------------------------------------
 

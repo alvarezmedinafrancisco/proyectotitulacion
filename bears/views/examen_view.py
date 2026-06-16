@@ -128,7 +128,6 @@ def ExamenView(page, exam_ctrl, id_unidad):
                 content=ft.Column([
                     ft.Row([
                         ft.Text(f"{datos_unidad['materia']} - {datos_unidad['unidad']}", size=16, weight="bold", color=ft.Colors.WHITE),
-                        ft.ElevatedButton("Ver perfil", on_click=open_profile, bgcolor=ft.Colors.BLUE_700, color=ft.Colors.WHITE, width=120)
                     ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                     ft.Divider(color=ft.Colors.BLUE_GREY_700),
                     ft.ProgressBar(value=0, width=400, color=ft.Colors.BLUE_300),
